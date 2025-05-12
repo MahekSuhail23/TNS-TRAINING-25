@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .dice {
+            font-size: 120px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .dice:hover {
+            transform: scale(1.2);
+            opacity: 0.9;
+        }
+        .winner {
+            font-size: 28px;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 5px black;
+        }
+        button {
+            padding: 14px 28px;
+            font-size: 22px;
+            margin-top: 20px;
+            cursor: pointer;
+            background: #ff7f50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background: #ff4500;
+            transform: scale(1.05);
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 18px;
+            color: lightgray;
+            text-shadow: 1px 1px 3px black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎲 Exciting Dice Game 🎲</h1>
+        <div class="dice-container">
+            <span class="dice" id="player1">🎲</span>
+            <span class="dice" id="player2">🎲</span>
+            <span class="dice" id="player3">🎲</span>
+        </div>
+        <div class="winner" id="result">Player 1, roll the dice!</div>
+        <button onclick="rollDice()">Roll Dice</button>
+    </div>
+    <div class="footer">Mahek Shaikh T090801011</div>
+
+    <script>
+        let currentPlayer = 1;
+        let scores = [0, 0, 0];
+        let diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+        function rollDice() {
+            if (currentPlayer <= 3) {
+                let roll = Math.floor(Math.random() * 6);
+                document.getElementById("player" + currentPlayer).textContent = diceFaces[roll];
+                scores[currentPlayer - 1] = roll;
+                
+                if (currentPlayer === 3) {
+                    determineWinner();
+                } else {
+                    currentPlayer++;
+                    document.getElementById("result").textContent = "Player " + currentPlayer + ", roll the dice!";
+                }
+            }
+        }
+
+        function determineWinner() {
+            let maxScore = Math.max(...scores);
+            let winners = scores.map((score, index) => score === maxScore ? "Player " + (index + 1) : null).filter(Boolean);
+            
+            document.getElementById("result").textContent = winners.length > 1 ? "It's a Draw!" : winners[0] + " Wins!";
+            currentPlayer = 1;
+            scores = [0, 0, 0];
+        }
+    </script>
+</body>
+</html>
